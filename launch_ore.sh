@@ -5,7 +5,7 @@ do
     --rpc $1 \
     --keypair $2 \
     --priority-fee 1000000 \
-  claim \
-    --threads 1
+  mine \
+    --threads 2
   echo "Exited"
 done
