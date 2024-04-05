@@ -6,7 +6,7 @@ Install requirements:
 
 ``` bash
 mkdir ~/ore
-sudo apt update && sudo apt install build-essential python3 python3-pip-y
+sudo apt update && sudo apt install build-essential python3 python3-pip -y
 curl https://sh.rustup.rs -sSf | sh
 sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
 source ~/.profile
@@ -24,6 +24,7 @@ set KEYS <YOUR_CSVFILE>
 scp main.py ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp mine_ore.sh ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp claim_ore.sh ${LOGIN_NAME}@${SERVER_IP}:~/ore/
+scp check_balance.py ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp requirements.txt ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp ${KEYS} ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 ```
