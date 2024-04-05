@@ -34,10 +34,9 @@ Go back to the server and launch script
 export RPC_URL=<YOUR_RPC>
 export KEYS=<YOUR_CSVFILE>
 tmux
-```
 cd ~/ore
 pip install -r requirements.txt
-
+```
 python3 main.py --rpc $RPC_URL --keys $KEYS &
 
 ```
