@@ -18,8 +18,10 @@ def parse_args():
     return parser.parse_args()
 
 def launch_ore(rpc, keypair_path, log_path):
-        logging.debug(f'Launch mining for {keypair_path}. LogPath: {log_path}')
-        subprocess.call(['sh', './launch_ore.sh', rpc, keypair_path], stdout=str(log_path))
+        with log_path.open('w') as f:
+            f.write('')
+            logging.debug(f'Launch mining for {keypair_path}. LogPath: {log_path}')
+            subprocess.call(['sh', './launch_ore.sh', rpc, keypair_path], stdout=f)
 
 def main():
     args = parse_args()
@@ -27,8 +29,10 @@ def main():
     keypairs_paths : List[Path]= []
     current_path = Path(__file__).parent
     keypairs_base_path = Path(__file__).parent / 'keypairs'
-    log_base_path = current_path / 'logs'
     keypairs_base_path.mkdir(parents=True, exist_ok=True)
+    log_base_path = current_path / 'logs'
+    log_base_path.mkdir(parents=True, exist_ok=True)
+
     
     with args.csv.open() as f:
         reader = csv.reader(f)
@@ -59,4 +63,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
