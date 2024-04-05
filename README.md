@@ -14,12 +14,14 @@ source ~/.profile
 cargo install ore-cli
 ```
 
-Go to your host pc, open MinGW64 (it's convenient for Windows) and copy to the server scripts.
+Go to your host pc, open POWERSHELL (it's convenient for Windows) and copy to the server scripts.
 
 ```bash
-EXPORT LOGIN_NAME=<YOUR_LOGIN>
-EXPORT SERVER_IP=<SERVER_IP>
-EXPORT KEYS=<YOUR_CSVFILE>
+set LOGIN_NAME=<YOUR_LOGIN>
+set SERVER_IP=<SERVER_IP>
+set KEYS=<YOUR_CSVFILE>
+```
+```bash
 scp main.py $LOGIN_NAME@$SERVER_IP:~/ore
 scp launch_ore.sh $LOGIN_NAME@$SERVER_IP:~/ore
 scp requirements.sh $LOGIN_NAME@$SERVER_IP:~/ore
@@ -32,5 +34,8 @@ export RPC_URL=<YOUR_RPC>
 EXPORT KEYS=<YOUR_CSVFILE>
 cd ~/ore
 pip install -r requirements.txt
-nohup python3 main.py --rpc $RPC_URL --keys $KEYS &
+tmux
+python3 main.py --rpc $RPC_URL --keys $KEYS &
+Ctrl-B D
 ```
+The script supposed to be launch in tmux so it works even when you logout the server.
