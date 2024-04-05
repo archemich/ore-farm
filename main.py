@@ -34,7 +34,7 @@ def main():
     log_base_path.mkdir(parents=True, exist_ok=True)
 
     
-    with args.csv.open() as f:
+    with args.keys.open() as f:
         reader = csv.reader(f)
         for b58str in reader:
             keypair = Keypair.from_base58_string(b58str[0]).to_json()
