@@ -34,7 +34,7 @@ export KEYS=<YOUR_CSVFILE>
 tmux
 cd ~/ore
 pip install -r requirements.txt
-python3 main.py --rpc $RPC_URL --keys $KEYS &
+python3 main.py --rpc $RPC_URL --keys $KEYS
 ```
 Deatch session so script not stopped when leave server with `Ctrl-B D` in tmux.
 The script supposed to be launch in tmux so it works even when you logout the server.
