@@ -31,7 +31,7 @@ scp ${KEYS} ${LOGIN_NAME}@${SERVER_IP}:~/ore
 Go back to the server and launch script
 ```bash
 export RPC_URL=<YOUR_RPC>
-EXPORT KEYS=<YOUR_CSVFILE>
+export KEYS=<YOUR_CSVFILE>
 cd ~/ore
 pip install -r requirements.txt
 tmux
