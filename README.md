@@ -25,7 +25,6 @@ scp main.py ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp mine_ore.sh ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp claim_ore.sh ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp check_balance.py ${LOGIN_NAME}@${SERVER_IP}:~/ore/
-scp drain_wallets.py ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp requirements.txt ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp ${KEYS} ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 ```
