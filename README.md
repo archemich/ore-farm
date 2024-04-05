@@ -22,7 +22,8 @@ set KEYS <YOUR_CSVFILE>
 ```
 ```bash
 scp main.py ${LOGIN_NAME}@${SERVER_IP}:~/ore/
-scp launch_ore.sh ${LOGIN_NAME}@${SERVER_IP}:~/ore/
+scp mine_ore.sh ${LOGIN_NAME}@${SERVER_IP}:~/ore/
+scp claim_ore.sh ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp requirements.txt ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 scp ${KEYS} ${LOGIN_NAME}@${SERVER_IP}:~/ore/
 ```
@@ -34,7 +35,7 @@ export KEYS=<YOUR_CSVFILE>
 tmux
 cd ~/ore
 pip install -r requirements.txt
-python3 main.py --rpc $RPC_URL --keys $KEYS
+python3 main.py --rpc $RPC_URL --keys $KEYS --task mine
 ```
 Deatch session so script not stopped when leave server with `Ctrl-B D` in tmux.
 The script supposed to be launch in tmux so it works even when you logout the server.
