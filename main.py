@@ -13,7 +13,7 @@ from solana.transaction import Keypair
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--csv', type=Path, help='csv with private keys as b58string', required=True)
+    parser.add_argument('--keys', type=Path, help='csv with private keys as b58string', required=True)
     parser.add_argument('--rpc', required=True)
     return parser.parse_args()
 
