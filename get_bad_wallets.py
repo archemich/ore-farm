@@ -40,7 +40,7 @@ def main():
             if reward == 'Error':
                 key = keypair_path_keypair[str(keypair_path)]
                 keys.append(key)
-                print(f'{key} id bad!')
+                print(f'{key} is bad!')
         except Exception as e:
             print(f'IGNORED EXCEPTION: {e}')
 
