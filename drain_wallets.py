@@ -1,6 +1,7 @@
 import argparse
 import csv
 import sys
+import threading
 
 from pathlib import Path
 from solana.rpc.api import Client
@@ -87,6 +88,7 @@ def main():
         sys.exit(1)
 
     callees = []
+    threads = []
     for token in args.tokens:
         callees.append(globals()[f'drain_{token}'])
     with args.keys.open() as f:
@@ -95,11 +97,19 @@ def main():
             for callee in callees:
                 # Supposed to be drain ore be called first and sol last.
                 try:
-                    callee(row[0], args.target_wallet, client)
-
+                    t = threading.Thread(target=callee, args=[row[0], args.target_wallet, client])
+                    threads.append(t)
                 except Exception as e:
                     print(f'Something went wrong for {Keypair.from_base58_string(row[0])}!\n {e}')
 
+    try:
+        for t in threads:
+            t.start()
+
+        for t in threads:
+            t.join(timeout=1)
+    except Exception as e:
+        print(f'Something went wrong!\n {e}')
 
     print(f'Total sent: {TOTAL_SENT}.')
     print(f'Total sent AMOUNT: {TOTAL_SENT_AMOUNT}.')
