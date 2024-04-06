@@ -11,6 +11,7 @@ from uuid import uuid4
 from typing import List
 from pathlib import Path
 
+from tqdm import tqdm
 from solana.transaction import Keypair
 
 
@@ -39,7 +40,8 @@ def main():
 
     reward_sum = 0
     keys = []
-    for keypair_path in keypairs_paths:
+    print('Checking accounts.')
+    for keypair_path in tqdm(keypairs_paths):
         try:
             output = subprocess.check_output(['ore', '--rpc', args.rpc, '--keypair', keypair_path, args.type])
             reward = output.split()[0]
@@ -51,10 +53,11 @@ def main():
             print(f'IGNORED EXCEPTION: {e}')
 
     print(f'Total reward sum: {reward_sum}')
+    print('Writing to accounts to csv.')
     new_keys_csv=Path(__file__).parent / (args.type + '.csv')
     with new_keys_csv.open('w') as f:
         writer = csv.writer(f)
-        for key in keys:
+        for key in tqdm(keys):
             writer.writerow(key)
 
     tmp_dir.cleanup()

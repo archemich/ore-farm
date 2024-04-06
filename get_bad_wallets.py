@@ -2,15 +2,10 @@
 import argparse
 import csv
 import tempfile
-import logging
 import subprocess
-import threading
-import signal
-import sys
-from uuid import uuid4
-from typing import List
 from pathlib import Path
 
+from tqdm import tqdm
 from solana.transaction import Keypair
 
 
@@ -18,6 +13,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--keys', type=Path, help='csv with private keys as b58string', required=True)
     parser.add_argument('--rpc', required=True)
+    parser.add_argument('--outfile', type=Path, default=(Path(__file__).parent / 'broken.csv'))
     return parser.parse_args()
 
 def main():
@@ -36,7 +32,8 @@ def main():
                 keypairs_paths.append(keypair_path)
 
     keys = []
-    for keypair_path in keypairs_paths:
+    print('Checking accounts.')
+    for keypair_path in tqdm(keypairs_paths):
         try:
             output = subprocess.check_output(['ore', '--rpc', args.rpc, '--keypair', keypair_path, 'balance'])
             reward = output.split()[0].decode()
@@ -47,10 +44,10 @@ def main():
         except Exception as e:
             print(f'IGNORED EXCEPTION: {e}')
 
-    new_keys_csv=Path(__file__).parent / 'broken.csv'
-    with new_keys_csv.open('w') as f:
+    print('Writing accounts to csv.')
+    with args.outfile.open('w') as f:
         writer = csv.writer(f)
-        for key in keys:
+        for key in tqdm(keys):
             writer.writerow([key])
 
     tmp_dir.cleanup()
