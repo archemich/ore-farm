@@ -1,6 +1,7 @@
 import argparse
 import csv
 import sys
+
 from pathlib import Path
 from solana.rpc.api import Client
 from solana.rpc.types import TokenAccountOpts, TxOpts
@@ -12,6 +13,8 @@ DRY_RUN = False
 ORE_ADDRESS = 'oreoN2tQbHXVaZsr3pf66A48miqcBXCDJozganhEJgz'
 SUPPORTED_TOKENS = ['ore', 'sol']
 
+TOTAL_SENT = 0
+TOTAL_SENT_AMOUNT = 0
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -30,7 +33,11 @@ def drain_ore(private_key:str, target_wallet: str, client: Client):
     dest_wallet = Pubkey.from_string(target_wallet)
 
     token_opts = TokenAccountOpts(mint=mint)
-    token_account_from = client.get_token_accounts_by_owner(owner=source_wallet, opts=token_opts).value[0].pubkey
+    try:
+        token_account_from = client.get_token_accounts_by_owner(owner=source_wallet, opts=token_opts).value[0].pubkey
+    except IndexError:
+        print(f'{source_wallet} has no token account.')
+        return
     token_account_to = client.get_token_accounts_by_owner(owner=dest_wallet, opts=token_opts).value[0].pubkey
     balance = client.get_token_account_balance(pubkey=token_account_from)
     if balance.value.amount == '0':
@@ -49,12 +56,17 @@ def drain_ore(private_key:str, target_wallet: str, client: Client):
         ))
     )
     amount = balance.value.ui_amount_string
+    global TOTAL_SENT
+    TOTAL_SENT += 1
+    global TOTAL_SENT_AMOUNT
+    TOTAL_SENT_AMOUNT += float(amount)
     if not DRY_RUN:
-        resp = client.send_transaction(tx, keypair, opts=TxOpts(max_retries=10))
+        resp = client.send_transaction(tx, keypair)
         print(f'Sent: {amount} Ore.')
         print(f'From: {source_wallet}.')
         print(f'To: {dest_wallet}.')
         print(f'Result: {resp}.')
+        print('\n')
         return resp.value
     else:
         print(f'Will be sent {amount} from {source_wallet} to {dest_wallet}.')
@@ -82,7 +94,15 @@ def main():
         for row in reader:
             for callee in callees:
                 # Supposed to be drain ore be called first and sol last.
-                callee(row[0], args.target_wallet, client)
+                try:
+                    callee(row[0], args.target_wallet, client)
+
+                except Exception as e:
+                    print(f'Something went wrong for {Keypair.from_base58_string(row[0])}!\n {e}')
+
+
+    print(f'Total sent: {TOTAL_SENT}.')
+    print(f'Total sent AMOUNT: {TOTAL_SENT_AMOUNT}.')
 
 
 if __name__ =='__main__':
