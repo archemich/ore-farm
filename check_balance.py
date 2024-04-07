@@ -1,18 +1,13 @@
 #!/usr/bin/env python
 import argparse
 import csv
-import tempfile
-import logging
 import subprocess
-import threading
-import signal
-import sys
-from uuid import uuid4
-from typing import List
+import tempfile
 from pathlib import Path
+from uuid import uuid4
 
-from tqdm import tqdm
 from solana.transaction import Keypair
+from tqdm import tqdm
 
 
 def parse_args():
