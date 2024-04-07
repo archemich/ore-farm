@@ -15,7 +15,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--keys', type=Path, help='csv with private keys as b58string', required=True)
     parser.add_argument('--rpc', required=True)
-    parser.add_argument('--gas', required=True, default=1000000)
+    parser.add_argument('--gas', default=1000000)
 
     parser.add_argument('--task', choices=['claim', 'mine'], required=True)
     return parser.parse_args()
