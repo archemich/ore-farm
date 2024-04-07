@@ -7,6 +7,7 @@ from pathlib import Path
 
 from tqdm import tqdm
 from solana.transaction import Keypair
+from solana.rpc.types import RPCError
 
 
 def parse_args():
@@ -15,6 +16,7 @@ def parse_args():
     parser.add_argument('--rpc', required=True)
     parser.add_argument('--outfile', type=Path, default=(Path(__file__).parent / 'broken.csv'))
     return parser.parse_args()
+
 
 def main():
     args = parse_args()
@@ -33,16 +35,24 @@ def main():
 
     keys = []
     print('Checking accounts.')
+
+    def handle_error(keypair_path):
+        key = keypair_path_keypair[str(keypair_path)]
+        keys.append(key)
+        print(f'{key} is bad!')
+
     for keypair_path in tqdm(keypairs_paths):
         try:
             output = subprocess.check_output(['ore', '--rpc', args.rpc, '--keypair', keypair_path, 'balance'])
+            balance = output.split()[0].decode()
+            if balance == 'Error':
+                handle_error(keypair_path)
+                continue
+
+            output = subprocess.check_output(['ore', '--rpc', args.rpc, '--keypair', keypair_path, 'rewards'])
             reward = output.split()[0].decode()
-            if reward == 'Error':
-                key = keypair_path_keypair[str(keypair_path)]
-                keys.append(key)
-                print(f'{key} is bad!')
         except Exception as e:
-            print(f'IGNORED EXCEPTION: {e}')
+            handle_error(keypair_path)
 
     print('Writing accounts to csv.')
     with args.outfile.open('w') as f:

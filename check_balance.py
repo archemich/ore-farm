@@ -52,7 +52,7 @@ def main():
         except Exception as e:
             print(f'IGNORED EXCEPTION: {e}')
 
-    print(f'Total reward sum: {reward_sum}')
+    print(f'Total {args.type} sum: {reward_sum}')
     print('Writing to accounts to csv.')
     new_keys_csv=Path(__file__).parent / (args.type + '.csv')
     with new_keys_csv.open('w') as f:

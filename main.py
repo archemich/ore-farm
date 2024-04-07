@@ -15,21 +15,22 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--keys', type=Path, help='csv with private keys as b58string', required=True)
     parser.add_argument('--rpc', required=True)
+    parser.add_argument('--gas', required=True, default=1000000)
 
     parser.add_argument('--task', choices=['claim', 'mine'], required=True)
     return parser.parse_args()
 
-def mine_ore(rpc, keypair_path, log_path):
+def mine_ore(rpc, keypair_path, log_path, gas):
         with log_path.open('w') as f:
             f.write('')
             logging.debug(f'Launch mining for {keypair_path}. LogPath: {log_path}')
-            subprocess.call(['sh', './mine_ore.sh', rpc, keypair_path], stdout=f)
+            subprocess.call(['sh', './mine_ore.sh', rpc, keypair_path, gas], stdout=f)
 
-def claim_ore(rpc, keypair_path, log_path):
+def claim_ore(rpc, keypair_path, log_path, gas):
         with log_path.open('w') as f:
             f.write('')
             logging.debug(f'Launch claiming for {keypair_path}. LogPath: {log_path}')
-            subprocess.call(['sh', './claim_ore.sh', rpc, keypair_path], stdout=f)
+            subprocess.call(['sh', './claim_ore.sh', rpc, keypair_path, gas], stdout=f)
 
 def main():
     args = parse_args()
