@@ -34,6 +34,7 @@ def claim_ore(rpc, keypair_path, log_path, gas):
 
 def main():
     args = parse_args()
+    print(args)
 
     keypairs_paths : List[Path]= []
     current_path = Path(__file__).parent
@@ -59,7 +60,7 @@ def main():
         target = claim_ore
     for keypair_path in keypairs_paths:
         log_path = log_base_path / (keypair_path.name + '.log')
-        t = threading.Thread(target=target, args=[args.rpc, keypair_path, log_path])
+        t = threading.Thread(target=target, args=[args.rpc, keypair_path, log_path, args.gas])
         t.start()
         threads.append(t)
     

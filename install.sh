@@ -1,5 +1,10 @@
 mkdir ore
-cp ~/* ~/ore
+mv main.py ~/ore
+mv mine_ore.sh ~/ore
+mv claim_ore.sh ~/ore
+mv check_balance.py ~/ore
+mv requirements.txt ~/ore
+mv install.sh ~/ore
 
 mkdir ~/ore
 sudo apt update && sudo apt install build-essential python3 python3-pip -y
