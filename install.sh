@@ -8,7 +8,8 @@ mv install.sh ~/ore
 
 mkdir ~/ore
 sudo apt update && sudo apt install build-essential python3 python3-pip -y
+pip install -r ~/ore/requirements.txt
 curl https://sh.rustup.rs -sSf | sh
 sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
-source ~/.profile
+. "$HOME/.cargo/env"
 cargo install ore-cli
