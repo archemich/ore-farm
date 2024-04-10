@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+
+"""
+How to use:
+python3 get_bad_wallets.py --keys <csv> --rpc <url>
+"""
+
 import argparse
 import csv
 import tempfile

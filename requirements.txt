@@ -1,3 +1,6 @@
 base58
 solana
 tqdm
+ConfigArgParse
+requests
+pyTelegramBotAPI
