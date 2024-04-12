@@ -5,5 +5,6 @@ scp main.py $LOGIN@$SERVER_IP:~/
 scp mine_ore.sh $LOGIN@$SERVER_IP:~/
 scp claim_ore.sh $LOGIN@$SERVER_IP:~/
 scp check_balance.py $LOGIN@$SERVER_IP:~/
+scp get_bad_wallets.py $LOGIN@$SERVER_IP:~/
 scp requirements.txt $LOGIN@$SERVER_IP:~/
 scp install.sh $LOGIN@$SERVER_IP:~/

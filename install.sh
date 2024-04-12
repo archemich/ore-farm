@@ -3,6 +3,7 @@ mv main.py ~/ore
 mv mine_ore.sh ~/ore
 mv claim_ore.sh ~/ore
 mv check_balance.py ~/ore
+mv get_bad_wallets.py ~/ore
 mv requirements.txt ~/ore
 mv install.sh ~/ore
 
